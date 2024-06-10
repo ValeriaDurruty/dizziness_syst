@@ -1,0 +1,11 @@
+<div class="container my-5">
+  <div class="p-5 text-center bg-body-tertiary rounded-3">
+    <h1 class="text-body-emphasis">Sesión N° {{ejercicios.FK_Sesion}}</h1>
+    <p class="lead">
+      {{#each ejercicios}}
+      Ejercicio: {{nombre}} {{descripcion}} {{video}} {{repeticiones}} {{FK_Sesion}}<br>
+      {{/each}}
+    </p>
+    <a class="btn btn-outline-primary" href="#">Continuar</a>
+  </div>
+</div>

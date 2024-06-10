@@ -1,0 +1,52 @@
+<script src="/js/add_sesion.js"></script>
+<div class="container p-4">
+    <div class="row">
+        <div class="col">
+        <div class="card">
+            <div class="card-header text-center">
+            <h4>Nueva sesión</h4>
+            </div>
+            <div class="card-body">
+            <form action="/sesion/add" method="POST">
+                <div class="form-group">
+                    <label for="paciente">Paciente</label>
+                    <select name="paciente" id="paciente" autofocus>
+                        <option value="">Seleccione un paciente</option>
+                        {{#each pacientes}}
+                            <option value="{{idPaciente}}">{{apellido}}, {{nombre}}</option>
+                        {{else}}
+                            <option value="">No hay pacientes</option>
+                        {{/each}}
+                        </select>
+                </div>
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col">
+                            <label for="fechaActivacion">Fecha de activación</label>
+                            <input type="date" name="fechaActivacion" class="form-control" placeholder="Fecha de activación" required>
+                        </div>
+                        <div class="col">
+                            <label for="repeticiones">Repeticiones</label>
+                            <input type="int" name="repeticiones" class="form-control" placeholder="Repeticiones" required>
+                        </div>
+                    </div>
+                    <input type="hidden" id="ejercicioCount" name="ejercicioCount" value="0">
+                </div>
+                <div class="form-group">
+                    <label for="nombre">Asignaciones</label><br>
+                    <button id="addEjercicio">Agregar ejercicio</button>
+                    <button id="removeEjercicio">Quitar ejercicio</button>
+                </div>
+                <div class="form-group">
+                    <div id="ejercicio">
+
+                    </div>
+                <div class="form-group">
+                    <button class="btn btn-primary btn-block">Crear sesión</button>
+                </div>
+            </form>
+            </div>
+        </div>
+        </div>
+    </div>
+</div>
