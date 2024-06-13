@@ -50,13 +50,14 @@ passport.use('local.signup', new LocalStrategy({
         validar: 0
     };
 
-    await pool.query('INSERT INTO Profesional SET ?', [newProfesional]);
+    const altaProf = await pool.query('INSERT INTO Profesional SET ?', [newProfesional]);
     
     // Obtener el idProfesional del profesional recién agregado
-    const resultadoId = await pool.query('SELECT LAST_INSERT_ID() as id');
-    //console.log(resultadoId[0]);
-    //console.log('El id del profesional desde la consulta es: ', resultadoId[0].id);
-    const FK_Profesional = resultadoId[0].id;
+    const PK_Profesional = altaProf.insertId;
+    if (PK_Profesional == null || PK_Profesional == 0) {
+        console.log('No se pudo cargar el profesional');
+        return done(null, false, req.flash('message', 'No se pudo registrar al usuario. Intente nuevamente.'));
+    };
 
     const newUsuario = {
         nombre,
@@ -64,7 +65,7 @@ passport.use('local.signup', new LocalStrategy({
         email,
         pass: password,
         FK_Rol: 2,
-        FK_Profesional: FK_Profesional
+        FK_Profesional: PK_Profesional
     };
 
     newUsuario.pass = await helpers.encryptPassword(password);

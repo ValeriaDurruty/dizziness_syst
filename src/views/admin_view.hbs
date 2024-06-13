@@ -4,6 +4,8 @@
     <p class="lead">
       Tienes {{cantidadCuentas}} usuarios pendientes de validación.
     </p>
+    {{#if cantidadCuentas}}
     <a class="btn btn-outline-primary" href="/users/listActivate">Validar usuario</a>
+    {{/if}}
   </div>
 </div>

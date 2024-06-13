@@ -10,52 +10,6 @@ const { isLoggedIn } = require('../lib/auth');
 const helpers = require('../lib/helpers');
 const { hash } = require('bcryptjs');
 
-router.get('/add', isLoggedIn, (req, res) => {
-    res.render('users/add');
-});
-
-router.post('/add', isLoggedIn, async (req, res) => {
-        const { nombre, apellido, email, matricula, tipoMatricula, password, pass1 } = req.body;
-
-        //chequear que pass1 y pass2 sean iguales
-        if (password != pass1){
-            req.flash('message', 'Las contraseñas no coinciden');
-            res.redirect('/users/add');
-        }else{
-            
-            const newProfesional = {
-                tipoMatricula,
-                matricula,
-                validar: 0
-            };
-
-            const result = await pool.query('INSERT INTO Profesional SET ?', [newProfesional]);
-            
-            const FK_Profesional = result.insertId;
-
-            // Cifra la contraseña
-            const hash = await helpers.encryptPassword(password);
-
-            const newUsuario = {
-                nombre,
-                apellido,
-                email,
-                pass: hash,
-                FK_Rol: 2,
-                FK_Profesional
-            };
-
-            const alta = await pool.query('INSERT INTO Usuario SET ?', [newUsuario]);
-            
-            if (alta){
-                req.flash('success', 'Profesional agregado correctamente');
-                res.redirect('/users');
-            }else{
-                req.flash('message', 'Error al agregar profesional');
-                res.redirect('/users/add');
-            }
-    }
-});
 
 router.get('/listActivate', isLoggedIn, async (req, res) => {
     const users = await pool.query('SELECT p.*, u.nombre AS nombre, u.apellido AS apellido, u.email AS email FROM Profesional p INNER JOIN Usuario u ON p.PK_Profesional = u.FK_Profesional WHERE p.validar = 0');
@@ -93,7 +47,7 @@ router.get('/delete/:PK_Profesional', isLoggedIn, async (req, res) => {
     if (confirm){ */
         await pool.query('DELETE FROM Usuario WHERE FK_Profesional = ?', [PK_Profesional]);
         await pool.query('DELETE FROM Profesional WHERE PK_Profesional = ?', [PK_Profesional]);
-        req.flash('success', 'Profesional eliminado correctamente');
+        req.flash('success', 'Usuario eliminado correctamente');
         res.redirect('/users');
    /*  }else{
         res.redirect('/pacientes');
@@ -118,6 +72,8 @@ router.post('/edit/:PK_Profesional', isLoggedIn, async (req, res) => {
     
         const { PK_Profesional } = req.params;
         const { nombre, apellido, email, tipoMatricula, matricula } = req.body;
+        console.log(req.body);
+        console.log(PK_Profesional);
 
         const newUsuario = {
             nombre,

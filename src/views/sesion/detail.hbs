@@ -1,0 +1,63 @@
+<style>
+        .card {
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .card-header {
+            background-color: #007bff;
+            color: white;
+        }
+        .table th {
+            background-color: #f8f9fa;
+        }
+        .table th, .table td {
+            border: 1px solid #dee2e6;
+            padding: 8px;
+        }
+        .btn-primary {
+            background-color: #007bff;
+            border-color: #007bff;
+        }
+    </style>
+
+<div class="container p-4">
+    <div class="row">
+        <div class="col">
+            <div class="card">
+                <div class="card-header text-center">
+                    <h4>Detalles de la Sesión</h4>
+                </div>
+                <div class="card-body">
+                    <h5>Paciente: {{paciente.apellido}}, {{paciente.nombre}}</h5>
+                    <p>Número de Sesión: {{sesion.nroSesion}}</p>
+                    <p>Fecha de Activación: {{sesion.fechaActivacionFormatted}}</p>
+                    <p>Repeticiones: {{sesion.repeticiones}}</p>
+                    
+                    <h5>Ejercicios Asignados</h5>
+                    {{#if asignaciones.length}}
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Ejercicio</th>
+                                    <th>Repeticiones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {{#each asignaciones}}
+                                    <tr>
+                                        <td>{{this.nombre}}</td>
+                                        <td>{{this.repeticiones}}</td>
+                                    </tr>
+                                {{/each}}
+                            </tbody>
+                        </table>
+                    {{else}}
+                        <p>No hay ejercicios asignados.</p>
+                    {{/if}}
+                </div>
+            </div>
+        </div>
+    </div>
+            <div class="text-center mt-4">
+            <a class="btn btn-outline-primary" href="/sesion/add">Crear nueva sesión</a>
+        </div>
+</div>

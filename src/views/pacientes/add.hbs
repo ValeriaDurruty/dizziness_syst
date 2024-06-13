@@ -6,7 +6,7 @@
             <h4>Nuevo Paciente</h4>
             </div>
             <div class="card-body">
-            <form action="/pacientes/add" method="POST">
+            <form id="pacienteForm" action="/pacientes/add" method="POST">
                 <div class="form-group">
                     <div class="row g-3">
                         <div class="col-md-6">
@@ -24,16 +24,16 @@
                         <div class="col-md-6">
                             <label for="tipoDoc">Tipo de Doc.</label>
                             <select name="tipoDoc" class="form-select" aria-label="Default select example" required>
-                            <option selected>Seleccione un tipo de documento</option>
+                            <option value="" disabled selected>Seleccione un tipo de documento</option>
                             <option value="D.N.I.">D.N.I.</option>
                             <option value="C.I.">Cédula de Identidad</option>
-                            <option value="pasaporte">Pasaporte</option>
-                            <option value="otro">Otro</option>
+                            <option value="Pasaporte">Pasaporte</option>
+                            <option value="Otro">Otro</option>
                             </select>
                         </div>
                         <div class="col-md-6">
                             <label for="nroDoc">Nro. de Documento</label>
-                            <input type="text" name="documento" class="form-control" placeholder="Nro. de Documento" required>
+                            <input type="number" name="documento" class="form-control" placeholder="Nro. de Documento" required>
                         </div>
                     </div>
                 </div>
@@ -41,7 +41,7 @@
                     <div class="row g-3">
                         <div class="col-md-6">
                             <label for="fechaNac">Fecha de nacimiento</label>
-                            <input type="date" name="fechaNacimiento" class="form-control" placeholder="Fecha de nacimiento" required>
+                            <input type="date" id="fechaNac" name="fechaNacimiento" class="form-control" placeholder="Fecha de nacimiento" required>
                         </div>
                         <div class="col-md-6">
                             <label for="email">Correo electrónico</label>
@@ -56,9 +56,40 @@
                     <button class="btn btn-primary btn-block">Crear</button>
                 </div>
             </form>
+            <!-- Bootstrap Modal 1 -->
+            <div class="modal fade" id="errorFechaNac" tabindex="-1" aria-labelledby="errorFechaNacLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="errorFechaNacLabel">Error crear paciente</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>La fecha de nacimiento debe ser anterior a la fecha actual.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Cerrar</button>
+                </div>
+                </div>
+            </div>
+            </div>
             </div>
         </div>
         </div>
     </div>
 </div>
-                
+
+<script>
+    document.getElementById('pacienteForm').addEventListener('submit', function(event) {
+        const fechaNac = document.getElementById('fechaNac').value;
+        const fechaActual = new Date().toISOString().split('T')[0];
+
+        if (fechaNac >= fechaActual) {
+            event.preventDefault();
+            // Show registration modal on page load
+            $(document).ready(function(){
+                $('#errorFechaNac').modal('show');
+            });
+        }
+    });
+</script>

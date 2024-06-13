@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Listado de Sesiones por Paciente</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <style>
+        .container {
+            margin-top: 30px;
+        }
+        .table th {
+            background-color: #f8f9fa;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="text-center">Listado de Sesiones por Paciente</h1>
+        <div class="form-group">
+            <label for="pacienteSelect">Seleccionar Paciente:</label>
+            <select name="paciente" id="paciente" autofocus>
+                <option value="">Seleccione un paciente</option>
+                {{#each pacientes}}
+                <option value="{{PK_Paciente}}">{{apellido}}, {{nombre}}</option>
+                {{else}}
+                <option value="">No hay pacientes</option>
+                {{/each}}
+            </select>
+        </div>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Nro Sesión</th>
+                    <th>Fecha de Activación</th>
+                    <th>Repeticiones</th>
+                    <th>Fecha de Realización</th>
+                    <th>Cantidad de Asignaciones</th>
+                </tr>
+            </thead>
+            <tbody id="sesionesTableBody">
+                <!-- Session data will be populated by JavaScript -->
+            </tbody>
+        </table>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Fetch pacientes
+            fetch('/api/pacientes')
+                .then(response => response.json())
+                .then(data => {
+                    const pacienteSelect = document.getElementById('pacienteSelect');
+                    data.forEach(paciente => {
+                        const option = document.createElement('option');
+                        option.value = paciente.PK_Paciente;
+                        option.textContent = `${paciente.nombre} ${paciente.apellido}`;
+                        pacienteSelect.appendChild(option);
+                    });
+                });
+
+            // Fetch sesiones when paciente is selected
+            document.getElementById('pacienteSelect').addEventListener('change', function () {
+                const pacienteId = this.value;
+                fetch(`/api/pacientes/${pacienteId}/sesiones`)
+                    .then(response => response.json())
+                    .then(data => {
+                        const sesionesTableBody = document.getElementById('sesionesTableBody');
+                        sesionesTableBody.innerHTML = '';
+                        data.forEach(sesion => {
+                            const row = document.createElement('tr');
+                            row.innerHTML = `
+                                <td>${sesion.nroSesion}</td>
+                                <td>${sesion.fechaActivacion}</td>
+                                <td>${sesion.repeticiones}</td>
+                                <td>${sesion.fechaRealizacion ? sesion.fechaRealizacion : 'N/A'}</td>
+                                <td>${sesion.cantidadAsignaciones}</td>
+                            `;
+                            sesionesTableBody.appendChild(row);
+                        });
+                    });
+            });
+        });
+    </script>
+</body>
+</html>

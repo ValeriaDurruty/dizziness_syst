@@ -23,8 +23,8 @@
           {{!-- Administrador --}}
           {{!-- Se muestran las opciones de menú para el rol de administrador --}}
           {{#case 1}}
-          <li><a href="/users/listActivate" class="nav-link px-2 text-white">Activar cuenta</a></li>
-          <li><a href="/users" class="nav-link px-2 text-white">Cuentas activas</a></li>
+          <li><a href="/users/listActivate" class="nav-link px-2 text-white">Validar usuario</a></li>
+          <li><a href="/users" class="nav-link px-2 text-white">Usuarios validados</a></li>
           </ul>
           <div class="dropdown text-end">
             <a href="#" class="d-block text-decoration-none dropdown-toggle text-white" data-bs-toggle="dropdown" aria-expanded="false">
@@ -50,7 +50,7 @@
                 Pacientes
               </a>
               <div class="dropdown-menu" aria-labelledby="navbarPaciente">
-                <a class="dropdown-item" href="/pacientes/add/">Nuevo Paciente</a>
+                <a class="dropdown-item" href="/pacientes/add/">Agregar Paciente</a>
                 <a class="dropdown-item" href="/pacientes">Listado Pacientes</a>
               </div>
             </li>
@@ -69,6 +69,7 @@
               </a>
               <div class="dropdown-menu" aria-labelledby="navbarSesion">
                 <a class="dropdown-item" href="/sesion/add">Crear Sesión</a>
+                <a class="dropdown-item" href="/sesion/list">Listado Sesiones</a>
                 <a class="dropdown-item" href="#">Modificar Sesión</a>
                 <a class="dropdown-item" href="#">Eliminar Sesión</a>
                 <div class="dropdown-divider"></div>

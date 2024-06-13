@@ -1,12 +1,12 @@
 <div class="container p-4">
     <div class="row">
-        <div class="col-md-4 mx-auto">
+        <div class="col-md-12 mx-auto">
             <div class="card">
                 <div class="card-header text-center">
                     <h3>Editar Profesional</h3>
                 </div>
                 <div class="card-body">
-                    <form action="/users/edit/{{PK_Profesional}}" method="POST">
+                    <form action="/users/edit/{{prof.FK_Profesional}}" method="POST">
                         <div class="form-group">
                             <label for="nombre">Nombre</label>
                             <input type="text" name="nombre" class="form-control" placeholder="Nombre" value="{{prof.nombre}}" autofocus required>
