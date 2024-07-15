@@ -1,0 +1,36 @@
+<main class="index">
+    <header class="masterhead d-flex">
+        <div class="container text-center my-auto">
+            <h1 class="mb-1">Rehabilitación</h1>
+            <h3 class="mb-4">
+                <em>para pacientes con vestibulopatías</em>
+            </h3>
+            <img src="/img/op2.jpg" alt="hospital" height="500">
+        </div>
+    </header>
+    <!-- Bootstrap Modal -->
+<div class="modal fade" id="registrationModal" tabindex="-1" aria-labelledby="registrationModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="registrationModalLabel">Registro Exitoso</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <p>Su registro se ha realizado con éxito. Por favor, aguarde a que un administrador apruebe su cuenta.</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Cerrar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Show registration modal on page load
+  $(document).ready(function(){
+    $('#registrationModal').modal('show');
+  });
+</script>
+
+</main>

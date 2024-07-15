@@ -1,0 +1,92 @@
+<div class="container p-4">
+    <div class="row">
+        <div class="col-md-12 mx-auto">
+        <div class="card">
+            <div class="card-header text-center">
+            <h4>Editar Paciente</h4>
+            </div>
+            <div class="card-body">
+            <form action="/pacientes/edit/{{paciente.PK_Paciente}}" method="POST">
+                <div class="form-group">
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label for="nombre">Nombre</label>
+                            <input type="text" value="{{paciente.nombre}}" name="nombre" class="form-control" placeholder="Nombre" autofocus required>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="apellido">Apellido</label>
+                            <input type="text" value="{{paciente.apellido}}" name="apellido" class="form-control" placeholder="Apellido" required>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label for="tipoDoc">Tipo de Doc.</label>
+                            <select name="tipoDoc" class="form-select" aria-label="Default select example" required>
+                                <option disabled>Seleccione un tipo de documento</option>
+                                <option value="D.N.I.">D.N.I.</option>
+                                <option value="C.I.">Cédula de Identidad</option>
+                                <option value="pasaporte">Pasaporte</option>
+                                <option value="otro">Otro</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="nroDoc">Nro. de Documento</label>
+                            <input type="text" value="{{paciente.documento}}" name="documento" class="form-control" placeholder="Nro. de Documento" required>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label for="fechaNac">Fecha de nacimiento</label>
+                            <input type="date" value="{{fechaNacimientoFormatted}}" id="fechaNacimiento" name="fechaNacimiento" class="form-control" placeholder="Fecha de nacimiento" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="email">Correo electrónico</label>
+                            <input type="email" value="{{paciente.email}}" name="email" class="form-control" placeholder="Correo electrónico" required>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group text-center" style="color: red">
+                    <label>Importante: El N° de documento será la contraseña.</label>
+                </div>
+                <div class="form-group">
+                    <button class="btn btn-success btn-block">Guardar</button>
+                </div>
+            </form>
+                <a href="/pacientes" class="btn btn-secondary btn-block">Volver</a>
+            </div>
+        </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        var tipoDoc = "{{paciente.tipoDoc}}";
+        var fechaNacimiento = new Date("{{paciente.fechaNacimiento}}");
+
+        // Establecer el tipo de documento seleccionado
+        var tipoDocSelect = document.getElementById("tipoDoc");
+        for (var i = 0; i < tipoDocSelect.options.length; i++) {
+            if (tipoDocSelect.options[i].value === tipoDoc) {
+                tipoDocSelect.selectedIndex = i;
+                break;
+            }
+        }
+
+        // Formatear la fecha de nacimiento
+        var dia = fechaNacimiento.getDate();
+        var mes = fechaNacimiento.getMonth() + 1; // Los meses son base 0 en JavaScript, así que sumamos 1
+        var anio = fechaNacimiento.getFullYear();
+        var fechaFormateada = anio + '-' + (mes < 10 ? '0' : '') + mes + '-' + (dia < 10 ? '0' : '') + dia;
+
+        console.log("Fecha formateada:", fechaFormateada);
+
+        // Establecer la fecha de nacimiento
+        document.getElementById("fechaNacimiento").value = fechaFormateada;
+    });
+</script>
+                

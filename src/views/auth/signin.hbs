@@ -1,0 +1,84 @@
+<div class="container p-4">
+    <div class="row">
+        <div class="col-md-4 mx-auto">
+            <div class="card">
+                <div class="card-header text-center">
+                    <h3>Iniciar sesión</h3>
+                </div>
+                <div class="card-body">
+                    <form action="/signin" class="needs-validation" novalidate method="POST">
+                        <div class="form-group">
+                            <label for="nombre">Correo electrónico</label>
+                            <input type="email" name="email" class="form-control" placeholder="Correo electrónico" autofocus title="Por favor ingrese un correo electrónico válido" required>
+                            <div class="invalid-feedback text-center">
+                                Por favor ingrese el correo electrónico con el cual está registrado.
+                            </div>
+                            <div class="valid-feedback text-center">
+                                OK!!
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="pass">Contraseña</label>
+                            <input type="password" name="pass" alt="strongPass" class="form-control" placeholder="Contraseña" title="Por favor ingrese una contraseña" required>
+                            <div class="invalid-feedback text-center">
+                                Por favor ingrese su contraseña.
+                            </div>
+                            <div class="valid-feedback text-center">
+                                OK!!
+                            </div>
+                        </div>
+                        <div class="form-group text-center">
+                            <a href="#">¿Olvidaste tu contraseña?</a>
+                        </div>
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary btn-block">Ingresar</button>
+                        </div>
+                        <div class="form-group">
+                            <p class="text-center">¿No tienes una cuenta? <a href="/signup">Regístrate</a></p>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+$(document).ready(function() {
+    $('#signin-form').on('submit', function(e) {
+        var email = $('input[name="email"]').val().trim();
+        var pass = $('input[name="pass"]').val().trim();
+        var errorMessage = '';
+
+        if (!email) {
+            errorMessage = 'Por favor ingrese su correo electrónico.';
+        } else if (!pass) {
+            errorMessage = 'Por favor ingrese su contraseña.';
+        }
+
+        if (errorMessage) {
+            e.preventDefault();
+            $('#flash-message').text(errorMessage).show();
+        }
+    });
+});
+
+    // Example starter JavaScript for disabling form submissions if there are invalid fields
+    (() => {
+    'use strict'
+
+    // Fetch all the forms we want to apply custom Bootstrap validation styles to
+    const forms = document.querySelectorAll('.needs-validation')
+
+    // Loop over them and prevent submission
+    Array.from(forms).forEach(form => {
+        form.addEventListener('submit', event => {
+        if (!form.checkValidity()) {
+            event.preventDefault()
+            event.stopPropagation()
+        }
+
+        form.classList.add('was-validated')
+        }, false)
+    })
+    })()
+</script>

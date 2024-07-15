@@ -1,0 +1,17 @@
+<div class="container p-4">
+    <div class="row">
+        <div class="col-md-6 mx-auto">
+        <div class="card">
+            <div class="card-header text-center">
+            <h4>Detalles de la Sesión</h4>
+            </div>
+            <div class="card-body text-center">
+                <p>Número de sesión: {{session.nroSesion}}</p>
+                <p>Repeticiones: {{session.repeticiones}}</p>
+                <p>Cantidad de ejercicios: {{totalAssignments}}</p>
+                <a href="/sesion/start_exercises/{{session.PK_Sesion}}" class="btn btn-primary">Empezar ejercicios</a>
+            </div>
+        </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,13 @@
+<div class="container my-5">
+  <div class="p-5 text-center bg-body-tertiary rounded-3">
+    <h1 class="text-body-emphasis">Bienvenido/a {{user.nombre}} {{user.apellido}}!!</h1>
+    <p class="lead">
+      Tienes {{cantidadPac}} pacientes a tu cargo.
+    </p>
+    {{#if cantidadPac}}
+    <a class="btn btn-outline-primary" href="/pacientes">Listado Pacientes</a>
+    {{else}}
+    <a class="btn btn-outline-primary" href="/pacientes/add">Agregar Paciente</a>
+    {{/if}}
+  </div>
+</div>

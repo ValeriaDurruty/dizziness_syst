@@ -1,0 +1,66 @@
+<style>
+        .card {
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .card-header {
+            background-color: #007bff;
+            color: white;
+        }
+        .table th {
+            background-color: #f8f9fa;
+        }
+        .table th, .table td {
+            border: 1px solid #dee2e6;
+            padding: 8px;
+        }
+        .btn-primary {
+            background-color: #007bff;
+            border-color: #007bff;
+        }
+    </style>
+
+<div class="container p-4">
+    <div class="row">
+        <div class="col">
+            <div class="card">
+                <div class="card-header text-center">
+                    <h4>¿Confirma que desea eliminar al paciente?</h4>
+                </div>
+                <div class="card-body">
+                    <table class="table">
+                        <tbody>
+                            <tr>
+                                <th>Nombre:</th>
+                                <td>{{paciente.nombre}}</td>
+                            </tr>
+                            <tr>
+                                <th>Apellido:</th>
+                                <td>{{paciente.apellido}}</td>
+                            </tr>
+                            <tr>
+                                <th>Tipo de Doc.:</th>
+                                <td>{{paciente.tipoDoc}}</td>
+                            </tr>
+                            <tr>
+                                <th>Nro. de Documento:</th>
+                                <td>{{paciente.documento}}</td>
+                            </tr>
+                            <tr>
+                                <th>Fecha de Nacimiento:</th>
+                                <td>{{paciente.fechaNacimientoFormatted}}</td>
+                            </tr>
+                            <tr>
+                                <th>Correo electrónico:</th>
+                                <td>{{paciente.email}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="text-center mt-4">
+                        <a class="btn btn-outline-secondary" href="/pacientes/">Volver a listado</a>
+                        <a class="btn btn-outline-danger" href="/pacientes/confirm-delete/{{PK_Paciente}}">Eliminar paciente</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

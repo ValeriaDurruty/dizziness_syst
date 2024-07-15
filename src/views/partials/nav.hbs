@@ -1,0 +1,180 @@
+<style>
+  /* Cambiar el color de la flecha del desplegable a blanco */
+  .dropdown-toggle::after {
+    color: white; /* Cambiar el color a blanco */
+  };
+</style>
+<!-- place navbar here -->
+{{#if user}}
+<header class="p-3 text-bg-dark">
+    <div class="container">
+      <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+
+        <a href="/" class="d-flex align-items-center mb-2 mb-lg-0 link-body-emphasis text-decoration-none">
+          <img src="/img/logo-dizziness-white.png" height="32" alt="">
+        </a>
+
+        <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+          <li><a href="/" class="nav-link px-2 text-primary">Dizziness Syst</a></li>
+
+          {{!-- Aquí se colocan las opciones de menú según el rol del usuario --}}
+          {{!-- Se evalúa el rol del usuario, si el usuario es rol adminstrados --}}
+          {{#switch user.FK_Rol}}
+          {{!-- Administrador --}}
+          {{!-- Se muestran las opciones de menú para el rol de administrador --}}
+          {{#case 1}}
+          <li><a href="/users/listActivate" class="nav-link px-2 text-white">Validar usuario</a></li>
+          <li><a href="/users" class="nav-link px-2 text-white">Usuarios validados</a></li>
+          </ul>
+          <div class="dropdown text-end">
+            <a href="#" class="d-block text-decoration-none dropdown-toggle text-white" data-bs-toggle="dropdown" aria-expanded="false">
+              <img src="/img/user.png" alt="mdo" width="32" height="32" class="rounded-circle">{{user.nombre}} {{user.apellido}}
+            </a>
+            <ul class="dropdown-menu text-small" style="">
+              <li><a class="dropdown-item" href="/profile">Perfil</a></li>
+              <li><a class="dropdown-item" href="/changepassword">Cambiar contraseña</a></li>
+              <li><hr class="dropdown-divider"></li>
+              <li><a class="dropdown-item" href="/logout">Cerrar sesión</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+          {{/case}}
+          {{!-- Profesional --}}
+          {{!-- Se muestran las opciones de menú para el rol de profesional --}}
+          {{#case 2}}
+            {{#if user.validar}}
+            {{!-- Se muestran las opciones de menú para el rol de profesional --}}
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle text-white" href="#" id="navbarPaciente" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Pacientes
+              </a>
+              <div class="dropdown-menu" aria-labelledby="navbarPaciente">
+                <a class="dropdown-item" href="/pacientes/add/">Agregar Paciente</a>
+                <a class="dropdown-item" href="/pacientes">Listado Pacientes</a>
+              </div>
+            </li>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle text-white" href="#" id="navbarHC" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Historias Clínicas
+              </a>
+              <div class="dropdown-menu" aria-labelledby="navbarHC">
+                <a class="dropdown-item" href="#">Editar H.C.</a>
+                <a class="dropdown-item" href="#">Evolucionar H.C.</a>
+              </div>
+            </li>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle text-white" href="#" id="navbarSesion" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Sesiones
+              </a>
+              <div class="dropdown-menu" aria-labelledby="navbarSesion">
+                <a class="dropdown-item" href="/sesion/add">Crear Sesión</a>
+                <a class="dropdown-item" href="/sesion/list">Listado Sesiones</a>
+                <a class="dropdown-item" href="#">Modificar Sesión</a>
+                <a class="dropdown-item" href="#">Eliminar Sesión</a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="#">Crear Ejercicio</a>
+                <a class="dropdown-item" href="#">Modificar Ejercicio</a>
+                <a class="dropdown-item" href="#">Eliminar Ejercicio</a>
+              </div>
+            </li>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle text-white" href="#" id="navbarSeguimiento" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Seguimiento
+              </a>
+              <div class="dropdown-menu" aria-labelledby="navbarSeguimiento">
+                <a class="dropdown-item" href="#">Ver Seguimientos nuevos</a>
+                <a class="dropdown-item" href="#">Ver históricos por Paciente</a>
+              </div>
+            </li>
+          </ul>
+          <div class="dropdown text-end">
+            <a href="#" class="d-block text-decoration-none dropdown-toggle text-white" data-bs-toggle="dropdown" aria-expanded="false">
+              <img src="/img/user.png" alt="mdo" width="32" height="32" class="rounded-circle">{{user.nombre}} {{user.apellido}}
+            </a>
+            <ul class="dropdown-menu text-small" style="">
+              <li><a class="dropdown-item" href="/profile">Perfil</a></li>
+              <li><a class="dropdown-item" href="/changepassword">Cambiar contraseña</a></li>
+              <li><hr class="dropdown-divider"></li>
+              <li><a class="dropdown-item" href="/logout">Cerrar sesión</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+            {{else}}
+            </ul>
+            
+            <div class="text-end">
+              <a type="button" class="btn btn-outline-light me-2" href="/signin">Iniciar sesión</a>
+              <a type="button" class="btn btn-warning" href="/signup">Registrarse</a>
+            </div>
+
+          </div>
+        </div>
+          {{/if}}
+          {{/case}}
+          {{!-- Paciente --}}
+          {{!-- Se muestran las opciones de menú para el rol de paciente --}}
+          {{#case 3}}
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle text-white" href="#" id="navbarExeSesion" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Sesiones
+              </a>
+              <div class="dropdown-menu" aria-labelledby="navbarExeSesion">
+                <a class="dropdown-item" href="#">Empezar Sesión</a>
+                <a class="dropdown-item" href="#">Listado Sesiones</a>
+              </div>
+            </li>
+          </ul>
+          <div class="dropdown text-end">
+            <a href="#" class="d-block text-decoration-none dropdown-toggle text-white" data-bs-toggle="dropdown" aria-expanded="false">
+              <img src="/img/user.png" alt="mdo" width="32" height="32" class="rounded-circle">{{user.nombre}} {{user.apellido}}
+            </a>
+            <ul class="dropdown-menu text-small" style="">
+              <li><a class="dropdown-item" href="/profile">Perfil</a></li>
+              <li><a class="dropdown-item" href="/changepassword">Cambiar contraseña</a></li>
+              <li><hr class="dropdown-divider"></li>
+              <li><a class="dropdown-item" href="/logout">Cerrar sesión</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+          {{/case}}
+          {{/switch}}
+{{!--         </ul>
+
+        <div class="dropdown text-end">
+          <a href="#" class="d-block text-decoration-none dropdown-toggle text-white" data-bs-toggle="dropdown" aria-expanded="false">
+            <img src="/img/user.png" alt="mdo" width="32" height="32" class="rounded-circle">{{user.nombre}} {{user.apellido}}
+          </a>
+          <ul class="dropdown-menu text-small" style="">
+            <li><a class="dropdown-item" href="/profile">Perfil</a></li>
+            <li><a class="dropdown-item" href="/changepassword">Cambiar contraseña</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item" href="/logout">Cerrar sesión</a></li>
+          </ul>
+        </div>
+      </div>
+    </div> --}}
+  </header>
+{{else}}
+<header class="p-3 text-bg-dark">
+  <div class="container">
+    <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+      <a href="/" class="d-flex align-items-center mb-2 mb-lg-0 text-white text-decoration-none">
+        <img src="/img/logo-dizziness-white.png" height="32" alt="">
+      </a>
+            
+      <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+        <li><a href="/" class="nav-link px-2 text-primary">Dizziness Syst</a></li>
+      </ul>
+            
+      <div class="text-end">
+        <a type="button" class="btn btn-outline-light me-2" href="/signin">Iniciar sesión</a>
+        <a type="button" class="btn btn-warning" href="/signup">Registrarse</a>
+      </div>
+
+    </div>
+  </div>
+</header>
+{{/if}}

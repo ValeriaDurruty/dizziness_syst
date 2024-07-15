@@ -1,0 +1,13 @@
+<div class="container my-5">
+  <div class="p-5 text-center bg-body-tertiary rounded-3">
+    <h1 class="text-body-emphasis">Bienvenido/a {{user.nombre}} {{user.apellido}}!!</h1>
+    {{#if cantidadSes}}
+      <p class="lead">
+        Tienes {{cantidadSes}} sesiones pendientes.
+      </p>
+      <a class="btn btn-outline-primary" href="/sesion/start_session/{{firstSesion.PK_Sesion}}">Empezar sesión</a>
+    {{else}}
+      <p class="lead">No tienes sesiones pendientes.</p>
+    {{/if}}
+  </div>
+</div>

@@ -1,0 +1,58 @@
+<div class="container p-4">
+    <div class="row">
+        <div class="col-md-12 mx-auto">
+            <div class="card">
+                <div class="card-header text-center">
+                    <h3>Editar Profesional</h3>
+                </div>
+                <div class="card-body">
+                    <form action="/users/edit/{{prof.FK_Profesional}}" method="POST">
+                        <div class="form-group">
+                            <label for="nombre">Nombre</label>
+                            <input type="text" name="nombre" class="form-control" placeholder="Nombre" value="{{prof.nombre}}" autofocus required>
+                        </div>
+                        <div class="form-group">
+                            <label for="apellido">Apellido</label>
+                            <input type="text" name="apellido" class="form-control" placeholder="Apellido" value="{{prof.apellido}}" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="tipoMatricula">Tipo Matrícula</label>
+                            <select name="tipoMatricula" id="tipoMatricula" class="form-select" aria-label="Default select example" required>
+                            <option disabled>Seleccione tipo de matrícula</option>
+                            <option value="M.P.">M.P.</option>
+                            <option value="M.N.">M.N.</option>
+                            <option value="otro">Otra</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="matricula">N° Matrícula</label>
+                            <input type="text" name="matricula" class="form-control" placeholder="Matrícula" value="{{prof.matricula}}" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Correo electrónico</label>
+                            <input type="email" name="email" class="form-control" placeholder="Correo eletrónico" value="{{prof.email}}" required>
+                        </div>
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-success btn-block">Guardar</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        var tipoMatricula = "{{user.tipoMatricula}}";
+
+        // Establecer el tipo de matrícula seleccionado
+        var tipoMatriculaSelect = document.getElementById("tipoMatricula");
+        for (var i = 0; i < tipoMatriculaSelect.options.length; i++) {
+            if (tipoMatriculaSelect.options[i].value === tipoMatricula) {
+                tipoMatriculaSelect.selectedIndex = i;
+                break;
+            }
+        }
+    });
+</script>

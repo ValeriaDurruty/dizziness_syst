@@ -1,0 +1,233 @@
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+<div class="container p-4">
+    <div class="row">
+        <div class="col">
+        <div class="card">
+            <div class="card-header text-center">
+            <h4>Nueva sesión</h4>
+            </div>
+            <div class="card-body">
+            <form action="/sesion/add" class="needs-validation" novalidate method="POST">
+                <div class="form-group">
+                    <label for="paciente">Paciente</label>
+                    <select name="paciente" id="paciente" class="form-control custom-select" autofocus required>
+                        <option value="">Seleccione un paciente</option>
+                        {{#each pacientes}}
+                        <option value="{{PK_Paciente}}">{{apellido}}, {{nombre}}</option>
+                        {{else}}
+                        <option value="">No hay pacientes</option>
+                        {{/each}}
+                    </select>
+                    <div class="invalid-feedback">
+                        Por favor seleccione un paciente.
+                    </div>
+                    <div class="valid-feedback">
+                        OK!!
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col">
+                            <label for="fechaActivacion">Fecha de activación</label>
+                            <input type="date" name="fechaActivacion" class="form-control" placeholder="Fecha de activación" required>
+                            <div class="invalid-feedback">
+                                Por favor ingrese una fecha válida.
+                            </div>
+                            <div class="valid-feedback">
+                                OK!!
+                            </div>
+                        </div>
+                        <div class="col">
+                            <label for="repeticiones">Repeticiones</label>
+                            <input type="number" min="1" name="repeticiones" class="form-control" placeholder="Repeticiones" required>
+                            <div class="invalid-feedback">
+                                Por favor ingrese un número.
+                            </div>
+                            <div class="valid-feedback">
+                                OK!!
+                            </div>
+                        </div>
+                    </div>
+                    <input type="hidden" id="ejercicioCount" name="ejercicioCount" value="0">
+                </div>
+                <div class="form-group">
+                    <label for="nombre">Asignaciones</label><br>
+                    <button id="addEjercicio"class="btn btn-success">Agregar ejercicio</button>
+                </div>
+                <div class="form-group">
+                    <div id="ejercicio">
+                </div>
+                <div class="form-group">
+                    <button id="submitButton" class="btn btn-primary btn-block">Crear sesión</button>
+                </div>
+            </form>
+            </div>
+        </div>
+        </div>
+    </div>
+<!-- Bootstrap Modal 1 -->
+<div class="modal fade" id="errorAlertModal1" tabindex="-1" aria-labelledby="errorAlertModalLabel1" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="errorAlertModalLabel1">Error crear sesión</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <p>Debe agregar al menos un ejercicio con sus repeticiones.</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Cerrar</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Bootstrap Modal 2 -->
+<div class="modal fade" id="errorAlertModal2" tabindex="-1" aria-labelledby="errorAlertModalLabel2" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="errorAlertModalLabel2">Error crear sesión</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <p>Asegúrese de completar todos los ejercicios y repeticiones.</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Cerrar</button>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    const addEjercicioButton = document.getElementById('addEjercicio');
+    const ejercicioFieldsContainer = document.getElementById('ejercicio');
+    const submitButton = document.getElementById('submitButton');
+    const form = document.querySelector('form');
+    
+    let ejercicioCount = 0;
+
+    // Función para agregar un nuevo campo de ejercicio
+    function addEjercicioField() {
+        ejercicioCount++;
+        document.getElementById('ejercicioCount').value = ejercicioCount;
+        const ejercicio = document.createElement('div');
+        ejercicio.classList.add('row', 'ejercicio'); // Agregar la clase "row" para que ocupe el ancho completo
+        ejercicio.innerHTML = `
+            <div class="col-md-6">
+                <label for="ejercicioId${ejercicioCount}">Ejercicio ${ejercicioCount}:</label><br>
+                <select type="text" id="ejercicioId${ejercicioCount}" name="ejercicioId${ejercicioCount}" class="form-control custom-select" required><br>
+                    <option value="" disabled selected>Seleccione un ejercicio</option>
+                    {{#each ejercicios}}
+                        <option value="{{PK_Ejercicio}}">{{nombreEjercicio}}</option>
+                    {{else}}
+                        <option value="" disabled selected>No hay ejercicios</option>
+                    {{/each}}
+                </select>
+                <div class="invalid-feedback">
+                    Por favor seleccione una opción.
+                </div>
+                <div class="valid-feedback">
+                    OK!!
+                </div>
+            </div>
+            <div class="col-md-3">
+                <label for="ejercicioReps${ejercicioCount}">Cantidad de repeticiones:</label><br>
+                <input type="number" id="ejercicioReps${ejercicioCount}" name="ejercicioReps${ejercicioCount}" min="1" class="form-control" required>
+                <div class="invalid-feedback">
+                    Por favor ingrese un número.
+                </div>
+                <div class="valid-feedback">
+                    OK!!
+                </div><br>
+            </div>
+            <div class="col-md-3">
+                <label for="removerAsignacion" class="invisible">Eliminar:</label><br>
+                <button class="btn btn-danger btn-block removeEjercicio">Quitar ejercicio</button>
+            </div>`;
+        
+        // Remove all "Quitar ejercicio" buttons
+        const removeButtons = ejercicioFieldsContainer.querySelectorAll('.removeEjercicio');
+        removeButtons.forEach(button => button.style.display = 'none');
+
+        // Add the new ejercicio to the container
+        ejercicioFieldsContainer.appendChild(ejercicio);
+
+        // Show "Quitar ejercicio" button on the last ejercicio
+        ejercicio.querySelector('.removeEjercicio').style.display = 'block';
+    }
+
+    // Evento click para el botón de agregar ejercicio
+    addEjercicioButton.addEventListener('click', function(e) {
+        e.preventDefault(); // Prevenir el envío del formulario
+        addEjercicioField();
+    });
+
+    // Evento click para el botón de quitar ejercicio (delegado)
+    ejercicioFieldsContainer.addEventListener('click', function(e) {
+        if (e.target && e.target.matches('.removeEjercicio')) {
+            e.preventDefault();
+            const ejercicioToRemove = e.target.closest('.ejercicio');
+            ejercicioFieldsContainer.removeChild(ejercicioToRemove);
+            ejercicioCount--;
+            document.getElementById('ejercicioCount').value = ejercicioCount;
+
+            // Show "Quitar ejercicio" button on the new last ejercicio
+            const remainingEjercicios = ejercicioFieldsContainer.querySelectorAll('.ejercicio');
+            if (remainingEjercicios.length > 0) {
+                const lastEjercicio = remainingEjercicios[remainingEjercicios.length - 1];
+                lastEjercicio.querySelector('.removeEjercicio').style.display = 'block';
+            }
+        }
+    });
+
+    // Validación del formulario antes del envío
+    form.addEventListener('submit', function(e) {
+        if (ejercicioCount === 0) {
+            e.preventDefault();
+            // Show registration modal on page load
+            $(document).ready(function(){
+                $('#errorAlertModal1').modal('show');
+            });
+            return false;
+        }
+
+        for (let i = 1; i <= ejercicioCount; i++) {
+            const ejercicioId = document.getElementById(`ejercicioId${i}`).value;
+            const ejercicioReps = document.getElementById(`ejercicioReps${i}`).value;
+            if (!ejercicioId || !ejercicioReps) {
+                e.preventDefault();
+                // Show registration modal on page load
+                $(document).ready(function(){
+                    $('#errorAlertModal2').modal('show');
+                });
+                return false;
+            }
+        }
+    });
+});
+
+    // Example starter JavaScript for disabling form submissions if there are invalid fields
+    (() => {
+    'use strict'
+
+    // Fetch all the forms we want to apply custom Bootstrap validation styles to
+    const forms = document.querySelectorAll('.needs-validation')
+
+    // Loop over them and prevent submission
+    Array.from(forms).forEach(form => {
+        form.addEventListener('submit', event => {
+        if (!form.checkValidity()) {
+            event.preventDefault()
+            event.stopPropagation()
+        }
+
+        form.classList.add('was-validated')
+        }, false)
+    })
+    })()
+</script>
