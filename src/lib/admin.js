@@ -1,6 +1,6 @@
 const helpers = require('./helpers'); // Importa el archivo helpers.js que contiene los métodos de cifrado
 
-const plaintextPassword = 'secureSystemMAD';
+const plaintextPassword = 'claveSegura';
 
 // Cifra la contraseña
 helpers.encryptPassword(plaintextPassword)
